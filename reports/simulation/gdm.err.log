@@ -1,0 +1,117 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from IPython.display import display, HTML
+import plotly.graph_objects as go
+import plotly.io as pio
+
+pio.renderers.default = "notebook_connected"
+
+from gdm.distribution import DistributionSystem
+from gdmloader.constants import GCS_CASE_SOURCE
+from gdmloader.source import SystemLoader
+
+gdm_loader = SystemLoader()
+gdm_loader.add_source(GCS_CASE_SOURCE)
+
+distribution_system: DistributionSystem = gdm_loader.load_dataset(
+    source_name=GCS_CASE_SOURCE.name,
+    system_type=DistributionSystem,
+    dataset_name="p1rhs7_1247",
+    version="2_1_2",
+)
+distribution_system.name = "p1rhs7_1247"
+distribution_system.info()
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mValidationError[39m                           Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 14[39m
+[32m     11[39m gdm_loader = SystemLoader()
+[32m     12[39m gdm_loader.add_source(GCS_CASE_SOURCE)
+[32m---> [39m[32m14[39m distribution_system: DistributionSystem = [43mgdm_loader[49m[43m.[49m[43mload_dataset[49m[43m([49m
+[32m     15[39m [43m    [49m[43msource_name[49m[43m=[49m[43mGCS_CASE_SOURCE[49m[43m.[49m[43mname[49m[43m,[49m
+[32m     16[39m [43m    [49m[43msystem_type[49m[43m=[49m[43mDistributionSystem[49m[43m,[49m
+[32m     17[39m [43m    [49m[43mdataset_name[49m[43m=[49m[33;43m"[39;49m[33;43mp1rhs7_1247[39;49m[33;43m"[39;49m[43m,[49m
+[32m     18[39m [43m    [49m[43mversion[49m[43m=[49m[33;43m"[39;49m[33;43m2_1_2[39;49m[33;43m"[39;49m[43m,[49m
+[32m     19[39m [43m)[49m
+[32m     20[39m distribution_system.name = [33m"[39m[33mp1rhs7_1247[39m[33m"[39m
+[32m     21[39m distribution_system.info()
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/gdmloader/source.py:134[39m, in [36mSystemLoader.load_dataset[39m[34m(self, system_type, source_name, dataset_name, version)[39m
+[32m    131[39m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(msg)
+[32m    133[39m system_file = [38;5;28mlist[39m(dataset_folder.rglob([33m"[39m[33m*.json[39m[33m"[39m))[[32m0[39m]
+[32m--> [39m[32m134[39m [38;5;28;01mreturn[39;00m [43msystem_type[49m[43m.[49m[43mfrom_json[49m[43m([49m[43msystem_file[49m[43m)[49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/infrasys/system.py:221[39m, in [36mSystem.from_json[39m[34m(cls, filename, upgrade_handler, **kwargs)[39m
+[32m    219[39m     data = json.load(f_in)
+[32m    220[39m time_series_parent_dir = Path(filename).parent
+[32m--> [39m[32m221[39m [38;5;28;01mreturn[39;00m [38;5;28;43mcls[39;49m[43m.[49m[43mfrom_dict[49m[43m([49m
+[32m    222[39m [43m    [49m[43mdata[49m[43m,[49m[43m [49m[43mtime_series_parent_dir[49m[43m,[49m[43m [49m[43mupgrade_handler[49m[43m=[49m[43mupgrade_handler[49m[43m,[49m[43m [49m[43m*[49m[43m*[49m[43mkwargs[49m
+[32m    223[39m [43m[49m[43m)[49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/infrasys/system.py:332[39m, in [36mSystem.from_dict[39m[34m(cls, data, time_series_parent_dir, upgrade_handler, **kwargs)[39m
+[32m    326[39m         upgrade_handler(
+[32m    327[39m             system_data,
+[32m    328[39m             system_data.get([33m"[39m[33mdata_format_version[39m[33m"[39m),
+[32m    329[39m             system.data_format_version,
+[32m    330[39m         )
+[32m    331[39m system.deserialize_system_attributes(system_data)
+[32m--> [39m[32m332[39m [43msystem[49m[43m.[49m[43m_deserialize_components[49m[43m([49m[43msystem_data[49m[43m[[49m[33;43m"[39;49m[33;43mcomponents[39;49m[33;43m"[39;49m[43m][49m[43m)[49m
+[32m    333[39m system._deserialize_supplemental_attributes(system_data[[33m"[39m[33msupplemental_attributes[39m[33m"[39m])
+[32m    334[39m logger.info([33m"[39m[33mDeserialized system [39m[38;5;132;01m{}[39;00m[33m"[39m, system.label)
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/infrasys/system.py:1428[39m, in [36mSystem._deserialize_components[39m[34m(self, components)[39m
+[32m   1426[39m skipped_types = [38;5;28mself[39m._deserialize_components_first_pass(components, cached_types)
+[32m   1427[39m [38;5;28;01mif[39;00m skipped_types:
+[32m-> [39m[32m1428[39m     [38;5;28;43mself[39;49m[43m.[49m[43m_deserialize_components_nested[49m[43m([49m[43mskipped_types[49m[43m,[49m[43m [49m[43mcached_types[49m[43m)[49m
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/infrasys/system.py:1462[39m, in [36mSystem._deserialize_components_nested[39m[34m(self, skipped_types, cached_types)[39m
+[32m   1460[39m [38;5;28;01mif[39;00m [38;5;28mlen[39m(components) > [32m1[39m:
+[32m   1461[39m     [38;5;28;01mfor[39;00m component_dict [38;5;129;01min[39;00m components[[32m1[39m:]:
+[32m-> [39m[32m1462[39m         component = [38;5;28;43mself[39;49m[43m.[49m[43m_try_deserialize_component[49m[43m([49m[43mcomponent_dict[49m[43m,[49m[43m [49m[43mcached_types[49m[43m)[49m
+[32m   1463[39m         [38;5;28;01massert[39;00m component [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[32m   1464[39m deserialized_types.add(component_type)
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/infrasys/system.py:1484[39m, in [36mSystem._try_deserialize_component[39m[34m(self, component, cached_types)[39m
+[32m   1482[39m metadata = SerializedTypeMetadata(**component[TYPE_METADATA])
+[32m   1483[39m component_type = cached_types.get_type(metadata.fields)
+[32m-> [39m[32m1484[39m actual_component = [43mcomponent_type[49m[43m([49m[43m*[49m[43m*[49m[43mvalues[49m[43m)[49m
+[32m   1485[39m [38;5;28mself[39m._components.add(actual_component, deserialization_in_progress=[38;5;28;01mTrue[39;00m)
+[32m   1486[39m [38;5;28;01mreturn[39;00m actual_component
+
+[36mFile [39m[32m/opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/pydantic/main.py:214[39m, in [36mBaseModel.__init__[39m[34m(self, **data)[39m
+[32m    212[39m [38;5;66;03m# `__tracebackhide__` tells pytest and some other tools to omit this function from tracebacks[39;00m
+[32m    213[39m __tracebackhide__ = [38;5;28;01mTrue[39;00m
+[32m--> [39m[32m214[39m validated_self = [38;5;28;43mself[39;49m[43m.[49m[43m__pydantic_validator__[49m[43m.[49m[43mvalidate_python[49m[43m([49m[43mdata[49m[43m,[49m[43m [49m[43mself_instance[49m[43m=[49m[38;5;28;43mself[39;49m[43m)[49m
+[32m    215[39m [38;5;28;01mif[39;00m [38;5;28mself[39m [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m validated_self:
+[32m    216[39m     warnings.warn(
+[32m    217[39m         [33m'[39m[33mA custom validator is returning a value other than `self`.[39m[38;5;130;01m\n[39;00m[33m'[39m
+[32m    218[39m         [33m"[39m[33mReturning anything other than `self` from a top level model validator isn[39m[33m'[39m[33mt supported when validating via `__init__`.[39m[38;5;130;01m\n[39;00m[33m"[39m
+[32m    219[39m         [33m'[39m[33mSee the `model_validator` docs (https://docs.pydantic.dev/latest/concepts/validators/#model-validators) for more details.[39m[33m'[39m,
+[32m    220[39m         stacklevel=[32m2[39m,
+[32m    221[39m     )
+
+[31mValidationError[39m: 1 validation error for MatrixImpedanceBranch
+  Value error, Length of matrix mat=<Quantity([[1.76096667 0.39596667]
+ [0.39596667 1.76096667]], 'ohm / kilometer')> did not match number of phases self.phases=[<Phase.S2: 'S2'>, <Phase.S1: 'S1'>, <Phase.N: 'N'>] [type=value_error, input_value={'uuid': '42a039ae-76dd-4...tity(115.0, 'ampere')>)}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/value_error
+
